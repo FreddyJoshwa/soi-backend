@@ -64,3 +64,21 @@ class ComplianceReport(Base):
     user_id = Column(Integer, ForeignKey("users.id"))
 
     user = relationship("User")
+
+class Document(Base):
+    __tablename__ = "documents"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    document_type = Column(String(100))
+    report_period = Column(String(50))
+
+    file_name = Column(String(255))
+    file_path = Column(String(500))
+
+    upload_status = Column(String(50), default="Uploaded")
+
+    uploaded_at = Column(DateTime, default=datetime.utcnow)
+
+    user_id = Column(Integer, ForeignKey("users.id"))
+
