@@ -6,6 +6,12 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.models import Document, User
+from app.pdf_utils import extract_text_from_pdf
+from app.pdf_utils import extract_text_from_pdf
+from app.extractors.water_report_extractor import extract_water_report_data
+from app.models import ExtractedReport
+from app.compliance_engine import calculate_compliance_score
+
 
 router = APIRouter(
     prefix="/api/documents",
@@ -83,3 +89,74 @@ def get_all_documents(
         })
 
     return result
+
+@router.get("/extract/{document_id}")
+def extract_document_text(
+    document_id: int,
+    db: Session = Depends(get_db)
+):
+
+    document = (
+        db.query(Document)
+        .filter(Document.id == document_id)
+        .first()
+    )
+
+    if not document:
+        return {
+            "message": "Document not found"
+        }
+
+    text = extract_text_from_pdf(
+        document.file_path
+    )
+
+    return {
+        "document_id": document.id,
+        "file_name": document.file_name,
+        "extracted_text": text
+    }
+
+@router.get("/analyze/{document_id}")
+def analyze_document(
+    document_id: int,
+    db: Session = Depends(get_db)
+):
+
+    document = (
+        db.query(Document)
+        .filter(Document.id == document_id)
+        .first()
+    )
+
+    if not document:
+        return {
+            "message": "Document not found"
+        }
+
+    text = extract_text_from_pdf(
+        document.file_path
+    )
+
+    # Choose extractor based on document type
+    if document.document_type == "Water Report":
+
+        extracted_data = extract_water_report_data(text)
+
+    elif document.document_type == "Air Report":
+
+        extracted_data = extract_air_report_data(text)
+
+    else:
+
+        return {
+            "message": f"Unsupported report type: {document.document_type}"
+        }
+
+    # Temporary response for testing Air extraction
+    return {
+        "document_id": document.id,
+        "document_type": document.document_type,
+        "file_name": document.file_name,
+        "analysis": extracted_data
+    }

@@ -4,6 +4,9 @@ from sqlalchemy.orm import Session
 from app.models import ComplianceReport
 from app.database import get_db
 from app.models import User
+from sqlalchemy import func
+from app.models import ExtractedReport
+
 router = APIRouter(
     prefix="/api/dashboard",
     tags=["Dashboard"]
@@ -13,13 +16,16 @@ router = APIRouter(
 # ==============================
 # DASHBOARD SUMMARY
 # ==============================
-
-
 @router.get("/summary")
 def get_dashboard_summary(db: Session = Depends(get_db)):
 
-    # latest user
     user = db.query(User).order_by(User.id.desc()).first()
+
+    latest_report = (
+        db.query(ExtractedReport)
+        .order_by(ExtractedReport.id.desc())
+        .first()
+    )
 
     cto_status = "Not Available"
     cto_expiry_days = 0
@@ -34,25 +40,37 @@ def get_dashboard_summary(db: Session = Depends(get_db)):
 
         if days_left > 30:
             cto_status = "Active"
-
         elif days_left > 0:
             cto_status = "Expiring Soon"
-
         else:
             cto_status = "Expired"
 
+    compliance_score = 0
+    compliance_status = "No Data"
+    active_alerts = 0
+
+    if latest_report:
+
+        compliance_score = latest_report.compliance_score
+        compliance_status = latest_report.overall_status
+
+        if latest_report.cod and latest_report.cod > 250:
+            active_alerts += 1
+
+        if latest_report.bod and latest_report.bod > 30:
+            active_alerts += 1
+
     return {
-        "compliance_score": 92,
-        "compliance_status": "Safe",
+        "compliance_score": compliance_score,
+        "compliance_status": compliance_status,
 
         "cto_status": cto_status,
         "cto_expiry_days": cto_expiry_days,
 
         "generated_reports": db.query(ComplianceReport).count(),
 
-        "active_alerts": 3
+        "active_alerts": active_alerts
     }
-
 
 # ==============================
 # LIVE COMPLIANCE STATUS
@@ -88,42 +106,27 @@ def get_live_status():
 # COMPLIANCE TREND GRAPH
 # ==============================
 @router.get("/trends")
-def get_trends():
+def get_dashboard_trends(
+    db: Session = Depends(get_db)
+):
 
-    return {
-        "labels": [
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May"
-        ],
+    reports = (
+        db.query(ExtractedReport)
+        .order_by(ExtractedReport.id.asc())
+        .all()
+    )
 
-        "ph_values": [
-            6.8,
-            7.0,
-            7.1,
-            6.9,
-            7.2
-        ],
+    trend_data = []
 
-        "tds_values": [
-            450,
-            470,
-            490,
-            500,
-            480
-        ],
+    for report in reports:
 
-        "compliance_scores": [
-            80,
-            85,
-            90,
-            88,
-            92
-        ]
-    }
+        trend_data.append({
+            "report_id": report.id,
+            "score": report.compliance_score,
+            "analysis_date": report.analysis_date
+        })
 
+    return trend_data
 
 # ==============================
 # GENERATED REPORTS

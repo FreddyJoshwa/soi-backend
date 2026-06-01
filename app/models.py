@@ -3,6 +3,7 @@ from app.database import Base
 from datetime import datetime
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
+from sqlalchemy import Float, Text
 
 
 
@@ -81,4 +82,32 @@ class Document(Base):
     uploaded_at = Column(DateTime, default=datetime.utcnow)
 
     user_id = Column(Integer, ForeignKey("users.id"))
+
+class ExtractedReport(Base):
+    __tablename__ = "extracted_reports"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    document_id = Column(Integer, ForeignKey("documents.id"))
+
+    company_name = Column(String(255))
+    sample_type = Column(String(255))
+
+    collection_date = Column(String(100))
+    analysis_date = Column(String(100))
+
+    ph = Column(Float)
+    tds = Column(Float)
+    cod = Column(Float)
+    bod = Column(Float)
+
+    overall_status = Column(String(100))
+
+    remarks = Column(Text)
+
+    compliance_score = Column(Integer)
+
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    document = relationship("Document")
 
