@@ -6,6 +6,7 @@ from app.database import get_db
 from app.models import User
 from sqlalchemy import func
 from app.models import ExtractedReport
+from app.models import ExtractedReport, AirReport
 
 router = APIRouter(
     prefix="/api/dashboard",
@@ -236,3 +237,99 @@ def get_alerts(db: Session = Depends(get_db)):
             })
 
     return alerts
+
+
+@router.get("/overall-compliance")
+def get_overall_compliance(
+    db: Session = Depends(get_db)
+):
+
+    latest_water = (
+        db.query(ExtractedReport)
+        .order_by(ExtractedReport.id.desc())
+        .first()
+    )
+
+    latest_air = (
+        db.query(AirReport)
+        .order_by(AirReport.id.desc())
+        .first()
+    )
+
+    water_score = (
+        latest_water.compliance_score
+        if latest_water else 0
+    )
+
+    air_score = (
+        latest_air.compliance_score
+        if latest_air else 0
+    )
+
+    available_scores = []
+
+    if latest_water:
+        available_scores.append(water_score)
+
+    if latest_air:
+        available_scores.append(air_score)
+
+    overall_score = (
+        sum(available_scores) / len(available_scores)
+        if available_scores else 0
+    )
+
+    total_reports = (
+        db.query(ExtractedReport).count()
+        +
+        db.query(AirReport).count()
+    )
+
+    return {
+        "water_score": water_score,
+        "air_score": air_score,
+        "overall_score": round(overall_score, 2),
+        "total_reports": total_reports
+    }
+
+@router.get("/compliance-trends")
+def get_compliance_trends(
+    db: Session = Depends(get_db)
+):
+
+    water_reports = (
+        db.query(ExtractedReport)
+        .order_by(ExtractedReport.id.asc())
+        .all()
+    )
+
+    air_reports = (
+        db.query(AirReport)
+        .order_by(AirReport.id.asc())
+        .all()
+    )
+
+    water_trends = []
+
+    for report in water_reports:
+
+        water_trends.append({
+            "report_id": report.id,
+            "score": report.compliance_score,
+            "type": "Water"
+        })
+
+    air_trends = []
+
+    for report in air_reports:
+
+        air_trends.append({
+            "report_id": report.id,
+            "score": report.compliance_score,
+            "type": "Air"
+        })
+
+    return {
+        "water_trends": water_trends,
+        "air_trends": air_trends
+    }

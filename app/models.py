@@ -111,3 +111,32 @@ class ExtractedReport(Base):
 
     document = relationship("Document")
 
+
+class AirReport(Base):
+    __tablename__ = "air_reports"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    document_id = Column(Integer, ForeignKey("documents.id"))
+
+    company_name = Column(String(255))
+
+    monitoring_date = Column(String(100))
+
+    pm25 = Column(Float)
+    pm10 = Column(Float)
+
+    so2 = Column(Float)
+    nox = Column(Float)
+    co = Column(Float)
+
+    overall_status = Column(String(100))
+
+    remarks = Column(String(1000))
+
+    compliance_score = Column(Integer)
+
+    created_at = Column(
+        DateTime,
+        default=datetime.utcnow
+    )

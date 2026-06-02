@@ -7,10 +7,14 @@ from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models import Document, User
 from app.pdf_utils import extract_text_from_pdf
-from app.pdf_utils import extract_text_from_pdf
+
 from app.extractors.water_report_extractor import extract_water_report_data
+from app.extractors.air_report_extractor import extract_air_report_data
+
 from app.models import ExtractedReport
 from app.compliance_engine import calculate_compliance_score
+from app.air_compliance_engine import calculate_air_compliance_score
+from app.models import AirReport
 
 
 router = APIRouter(
@@ -133,30 +137,72 @@ def analyze_document(
         return {
             "message": "Document not found"
         }
-
     text = extract_text_from_pdf(
         document.file_path
     )
 
-    # Choose extractor based on document type
-    if document.document_type == "Water Report":
+    doc_type = document.document_type.lower()
+
+    if doc_type == "water report":
 
         extracted_data = extract_water_report_data(text)
 
-    elif document.document_type == "Air Report":
-
-        extracted_data = extract_air_report_data(text)
-
-    else:
+        compliance = calculate_compliance_score(
+            extracted_data
+        )
 
         return {
-            "message": f"Unsupported report type: {document.document_type}"
-        }
+            "document_id": document.id,
+            "document_type": document.document_type,
+            "file_name": document.file_name,
 
-    # Temporary response for testing Air extraction
+            "analysis": extracted_data,
+
+            "compliance": {
+                "score": compliance["score"],
+                "alerts": compliance["alerts"]
+            }
+        }
+    elif doc_type == "air report":
+        extracted_data = extract_air_report_data(text)
+        compliance = calculate_air_compliance_score(
+        extracted_data
+    )
+
+    air_report = AirReport(
+        document_id=document.id,
+
+        company_name=extracted_data["company_name"],
+        monitoring_date=extracted_data["monitoring_date"],
+
+        pm25=extracted_data["pm25"],
+        pm10=extracted_data["pm10"],
+
+        so2=extracted_data["so2"],
+        nox=extracted_data["nox"],
+        co=extracted_data["co"],
+
+        overall_status=extracted_data["overall_status"],
+        remarks=extracted_data["remarks"],
+
+        compliance_score=compliance["score"]
+    )
+
+    db.add(air_report)
+    db.commit()
+    db.refresh(air_report)
+
     return {
         "document_id": document.id,
         "document_type": document.document_type,
         "file_name": document.file_name,
-        "analysis": extracted_data
+
+        "saved_air_report_id": air_report.id,
+
+        "analysis": extracted_data,
+
+        "compliance": {
+            "score": compliance["score"],
+            "alerts": compliance["alerts"]
+        }
     }
