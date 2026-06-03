@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>Compliance ESG Login</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<link rel="prefetch" href="register.html">
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Inter,sans-serif;
+}
+
+
+body{
+
+    width:100vw;
+    height:100vh;
+
+    overflow:hidden;
+
+    background:
+    linear-gradient(
+    rgba(39,145,86,0.94),
+    rgba(39,145,86,0.94)),
+
+    url("bg.jpg");
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+
+    position:relative;
+}
+
+/* ========================= */
+/* BACKGROUND CIRCLES */
+/* ========================= */
+
+.circle1{
+
+    position:absolute;
+
+    width:420px;
+    height:420px;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,0.05);
+
+    top:-150px;
+    left:300px;
+}
+
+.circle2{
+
+    position:absolute;
+
+    width:360px;
+    height:360px;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,0.06);
+
+    bottom:-130px;
+    left:250px;
+}
+
+.circle3{
+
+    position:absolute;
+
+    width:260px;
+    height:260px;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,0.06);
+
+    bottom:-90px;
+    right:-80px;
+}
+
+/* ========================= */
+/* WRAPPER */
+/* ========================= */
+
+.wrapper{
+
+    width:100%;
+    height:100vh;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 75px;
+
+    position:relative;
+    z-index:10;
+}
+
+/* ========================= */
+/* LEFT */
+/* ========================= */
+
+.left{
+
+    width:48%;
+
+    color:white;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+
+    margin-left:-35px;
+    margin-top:-50px;
+}
+
+/* LOGO */
+
+.logo{
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    margin-bottom:75px;
+}
+
+.logo-box{
+
+    width:42px;
+    height:42px;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,0.15);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    backdrop-filter:blur(10px);
+}
+
+.logo h2{
+
+    font-size:22px;
+    font-weight:600;
+}
+
+/* HEADING */
+
+.left h1{
+
+    font-size:58px;
+
+    line-height:1.08;
+
+    font-weight:700;
+    margin-top:60px;
+    margin-bottom:-30px;
+
+    max-width:600px;
+}
+
+/* TEXT */
+
+.left p{
+
+    font-size:18px;
+
+    line-height:1.8;
+
+    color:rgba(255,255,255,0.88);
+
+    max-width:540px;
+    margin-top:80px;
+}
+
+/* ========================= */
+/* STATS */
+/* ========================= */
+
+.stats{
+
+    display:flex;
+    gap:60px;
+
+    margin-top:120px;
+}
+
+.stat h2{
+
+    font-size:38px;
+
+    margin-bottom:6px;
+}
+
+.stat p{
+
+    font-size:15px;
+
+    color:rgba(255,255,255,0.82);
+}
+
+/* ========================= */
+/* RIGHT */
+/* ========================= */
+
+.right{
+
+    width:450px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    margin-right:100px;
+}
+
+/* LOGIN CARD */
+
+.login-card{
+
+    width:100%;
+
+    background:white;
+
+    border-radius:24px;
+
+    padding:42px 40px;
+
+    box-shadow:
+    0 20px 50px rgba(0,0,0,0.20);
+}
+
+/* TITLE */
+
+.login-card h1{
+
+    font-size:38px;
+
+    color:#111827;
+
+    margin-bottom:8px;
+}
+
+.sub{
+
+    color:#6B7280;
+
+    font-size:15px;
+
+    margin-bottom:34px;
+}
+
+/* INPUTS */
+
+.input-group{
+
+    margin-bottom:22px;
+}
+
+.input-group label{
+
+    display:block;
+
+    margin-bottom:10px;
+
+    font-size:14px;
+    font-weight:600;
+
+    color:#374151;
+}
+
+.input-group input{
+
+    width:100%;
+    height:56px;
+
+    border:1px solid #D1D5DB;
+
+    border-radius:12px;
+
+    padding:0 16px;
+
+    font-size:15px;
+
+    outline:none;
+
+    transition:0.3s;
+}
+
+.input-group input:focus{
+
+    border-color:#2E8B57;
+
+    box-shadow:
+    0 0 0 4px rgba(46,139,87,0.10);
+}
+
+/* BUTTON */
+
+.login-btn{
+
+    width:100%;
+    height:56px;
+
+    border:none;
+
+    border-radius:12px;
+
+    margin-top:6px;
+
+    background:
+    linear-gradient(
+    90deg,
+    #2E8B57,
+    #3FA46C);
+
+    color:white;
+
+    font-size:16px;
+    font-weight:600;
+
+    cursor:pointer;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+
+    transition:0.3s;
+}
+
+.login-btn:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:
+    0 12px 24px rgba(46,139,87,0.25);
+}
+
+/* SIGNUP */
+
+.signup{
+
+    margin-top:24px;
+
+    text-align:center;
+
+    color:#6B7280;
+
+    font-size:14px;
+}
+
+.signup a{
+
+    color:#2E8B57;
+
+    text-decoration:none;
+
+    font-weight:600;
+}
+
+/* ========================= */
+/* RESPONSIVE */
+/* ========================= */
+
+@media(max-width:1100px){
+
+    body{
+        overflow:auto;
+    }
+
+    .wrapper{
+
+        flex-direction:column;
+
+        justify-content:center;
+
+        gap:60px;
+
+        padding:40px 20px;
+    }
+
+    .left{
+
+        width:100%;
+        text-align:center;
+        align-items:center;
+    }
+
+    .logo{
+        margin-bottom:50px;
+    }
+
+    .stats{
+        margin-top:70px;
+        justify-content:center;
+    }
+
+    .right{
+        width:100%;
+        max-width:450px;
+    }
+
+    .left h1{
+        font-size:42px;
+    }
+
+    .left p{
+        font-size:16px;
+    }
+}
+
+@media(max-width:600px){
+
+    .login-card{
+        padding:35px 25px;
+    }
+
+    .left h1{
+        font-size:34px;
+    }
+
+    .stats{
+        gap:30px;
+        flex-wrap:wrap;
+    }
+
+    .stat h2{
+        font-size:30px;
+    }
+
+    .stat p{
+        font-size:14px;
+    }
+}
+body{
+
+    opacity:1;
+    transform:translateX(0);
+
+    transition:
+    opacity 0.8s ease,
+    transform 0.8s cubic-bezier(0.22,1,0.36,1);
+
+}
+
+
+/* EXIT ANIMATION */
+
+.page-exit{
+
+    opacity:0;
+
+    transform:translateX(-200px);
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="circle1"></div>
+<div class="circle2"></div>
+<div class="circle3"></div>
+
+<div class="wrapper">
+
+    <!-- LEFT -->
+
+    <div class="left">
+
+        <div class="logo">
+
+            <div class="logo-box">
+                <i class="fa-solid fa-leaf"></i>
+            </div>
+
+            <h2>Compliance & ESG Hub</h2>
+
+        </div>
+
+        <h1>
+            Simplify compliance.<br>
+            Accelerate sustainability.
+        </h1>
+
+        <p>
+            One platform to manage environmental
+            compliance, track ESG metrics, and generate
+            BRSR-ready reports.
+        </p>
+
+        <div class="stats">
+
+           
+
+        </div>
+
+    </div>
+
+    <!-- RIGHT -->
+
+    <div class="right">
+
+        <div class="login-card">
+
+            <h1>Welcome back</h1>
+
+            <p class="sub">
+                Sign in to your account
+            </p>
+
+            <form id="loginForm">
+
+                <div class="input-group">
+
+                    <label>Email</label>
+
+                    <input
+type="email"
+id="email"
+placeholder="you@company.com"
+required>
+
+                </div>
+
+                <div class="input-group">
+
+                    <label>Password</label>
+
+                    <input
+type="password"
+id="password"
+placeholder="••••••••"
+required>
+
+                </div>
+
+                <button
+                type="submit" 
+                class="login-btn">
+
+                    Sign in
+
+                    <i class="fa-solid fa-arrow-right"></i>
+
+                </button>
+
+            </form>
+
+            <div class="signup">
+
+                Don't have an account?
+                <a href="/register" id="signupBtn">
+    Sign Up
+</a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+
+    function showLoader(){
+
+    document
+    .getElementById("loader")
+    .classList
+    .remove("hidden");
+
+    document
+    .getElementById("loader")
+    .classList
+    .add("flex");
+}
+
+function hideLoader(){
+
+    document
+    .getElementById("loader")
+    .classList
+    .remove("flex");
+
+    document
+    .getElementById("loader")
+    .classList
+    .add("hidden");
+}
+
+function showToast(message, type="success"){
+
+    const toast =
+    document.getElementById("toast");
+
+    toast.innerText = message;
+
+    toast.className =
+    `fixed top-6 right-6 px-5 py-4 rounded-xl text-white font-semibold shadow-2xl z-50 ${
+        type === "success"
+        ? "bg-green-600"
+        : "bg-red-500"
+    }`;
+
+    toast.classList.remove("hidden");
+
+    setTimeout(() => {
+
+        toast.classList.add("hidden");
+
+    }, 3000);
+}
+
+const API_BASE_URL =
+"http://127.0.0.1:8000";
+
+
+// ========================
+// LOGIN
+// ========================
+
+document
+.getElementById("loginForm")
+.addEventListener(
+"submit",
+
+async function(e){
+
+    e.preventDefault();
+
+    const email =
+    document
+    .getElementById("email")
+    .value;
+
+    const password =
+    document
+    .getElementById("password")
+    .value;
+
+
+    try{
+
+        const response =
+        await fetch(
+
+            `${API_BASE_URL}/api/auth/login`,
+
+            {
+                method:"POST",
+
+                headers:{
+                    "Content-Type":
+                    "application/json"
+                },
+
+                body:JSON.stringify({
+
+                    email:email,
+                    password:password
+                })
+            }
+        );
+
+        const data =
+        await response.json();
+
+        console.log(data);
+
+
+        if(response.ok){
+showToast("Login Successful");
+
+
+            // SAVE TOKEN
+
+            localStorage.setItem(
+                "token",
+                data.access_token
+            );
+
+
+            // SAVE USER
+
+            localStorage.setItem(
+                "user",
+                JSON.stringify(data.user)
+            );
+
+
+            // REDIRECT
+
+            window.location.href =
+            "/dashboard";
+        }
+
+        else{
+
+           showToast(data.message, "error");
+        }
+
+    }
+
+    catch(error){
+
+        console.log(error);
+
+        alert(
+            "Backend Connection Error"
+        );
+    }
+
+});
+
+
+// ========================
+// REGISTER PAGE ANIMATION
+// ========================
+
+document
+.getElementById("signupBtn")
+.addEventListener(
+"click",
+
+function(e){
+
+    e.preventDefault();
+
+    document.body
+    .classList
+    .add("page-exit");
+
+    setTimeout(() => {
+
+        window.location.href =
+        "/register";
+
+    }, 200);
+
+});
+
+</script>
+<!-- LOADER -->
+
+<div id="loader"
+class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
+
+    <div class="bg-white px-8 py-6 rounded-2xl flex items-center gap-4 shadow-2xl">
+
+        <div class="w-7 h-7 border-4 border-[#2E8B57] border-t-transparent rounded-full animate-spin"></div>
+
+        <p class="font-semibold text-slate-700">
+            Please wait...
+        </p>
+
+    </div>
+
+</div>
+
+<!-- TOAST -->
+
+<div id="toast"
+class="fixed top-6 right-6 hidden px-5 py-4 rounded-xl text-white font-semibold shadow-2xl z-50">
+
+</div>
+</body>
+</html>
