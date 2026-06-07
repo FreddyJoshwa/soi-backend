@@ -1,94 +1,190 @@
 import re
 
+
 def extract_air_report_data(text):
 
-    data = {}
+    data = {
+
+        "company_name": None,
+        "monitoring_date": None,
+
+        "pm25": None,
+        "pm10": None,
+
+        "so2": None,
+        "nox": None,
+        "co": None,
+
+        "overall_status": None,
+        "remarks": None
+    }
+
+    # =========================
+    # COMPANY NAME
+    # =========================
 
     company = re.search(
+
         r"Company Name\s+(.*)",
-        text
+
+        text,
+
+        re.IGNORECASE
     )
+
+    if company:
+
+        data["company_name"] = (
+            company.group(1).strip()
+        )
+
+    # =========================
+    # MONITORING DATE
+    # =========================
 
     monitoring_date = re.search(
-        r"Monitoring Date\s+(.*?)\n",
-        text
+
+        r"Monitoring Date\s+(.*)",
+
+        text,
+
+        re.IGNORECASE
     )
 
-    pm_values = re.findall(
-        r"PM.*?(\d+(?:\.\d+)?)\s*μg",
+    if monitoring_date:
+
+        data["monitoring_date"] = (
+            monitoring_date.group(1).strip()
+        )
+
+    # =========================
+    # PM2.5
+    # =========================
+
+    pm25 = re.search(
+
+        r"PM2\.5\)\s*(\d+(?:\.\d+)?)",
+
         text,
-        re.DOTALL
+
+        re.IGNORECASE
     )
+
+    if pm25:
+
+        data["pm25"] = float(
+            pm25.group(1)
+        )
+
+    # =========================
+    # PM10
+    # =========================
+
+    pm10 = re.search(
+
+        r"PM10\)\s*(\d+(?:\.\d+)?)",
+
+        text,
+
+        re.IGNORECASE
+    )
+
+    if pm10:
+
+        data["pm10"] = float(
+            pm10.group(1)
+        )
+
+    # =========================
+    # SO2
+    # =========================
 
     so2 = re.search(
-        r"Sulphur Dioxide\)\s*(\d+(?:\.\d+)?)",
-        text
+
+        r"SO2\s*\)\s*(\d+(?:\.\d+)?)",
+
+        text,
+
+        re.IGNORECASE
     )
+
+    if so2:
+
+        data["so2"] = float(
+            so2.group(1)
+        )
+
+    # =========================
+    # NOX
+    # =========================
 
     nox = re.search(
-        r"Oxides of Nitrogen\)\s*(\d+(?:\.\d+)?)",
-        text
+
+        r"NOx\s*\)\s*(\d+(?:\.\d+)?)",
+
+        text,
+
+        re.IGNORECASE
     )
+
+    if nox:
+
+        data["nox"] = float(
+            nox.group(1)
+        )
+
+    # =========================
+    # CO
+    # =========================
 
     co = re.search(
-        r"Carbon Monoxide\)\s*(\d+(?:\.\d+)?)",
-        text
+
+        r"CO\)\s*(\d+(?:\.\d+)?)",
+
+        text,
+
+        re.IGNORECASE
     )
 
-    status = re.search(
-        r"STATUS\s+([A-Z\-]+)",
-        text
-    )
+    if co:
+
+        data["co"] = float(
+            co.group(1)
+        )
+
+    # =========================
+    # STATUS
+    # =========================
+
+    if "NON-COMPLIANT" in text:
+
+        data["overall_status"] = (
+            "NON-COMPLIANT"
+        )
+
+    elif "COMPLIANT" in text:
+
+        data["overall_status"] = (
+            "COMPLIANT"
+        )
+
+    # =========================
+    # REMARKS
+    # =========================
 
     remarks = re.search(
-        r"REMARKS / OBSERVATIONS\s+(.*?)ECOAIR LAB",
+
+        r"Observations\s*&\s*Engineering Remarks\s*(.*?)\[",
+
         text,
-        re.DOTALL
+
+        re.IGNORECASE | re.DOTALL
     )
 
-    data["company_name"] = (
-        company.group(1).strip()
-        if company else None
-    )
+    if remarks:
 
-    data["monitoring_date"] = (
-        monitoring_date.group(1).strip()
-        if monitoring_date else None
-    )
-
-    data["pm25"] = (
-        float(pm_values[0])
-        if len(pm_values) > 0 else None
-    )
-
-    data["pm10"] = (
-        float(pm_values[1])
-        if len(pm_values) > 1 else None
-    )
-
-    data["so2"] = (
-        float(so2.group(1))
-        if so2 else None
-    )
-
-    data["nox"] = (
-        float(nox.group(1))
-        if nox else None
-    )
-
-    data["co"] = (
-        float(co.group(1))
-        if co else None
-    )
-
-    data["overall_status"] = (
-        status.group(1).strip()
-        if status else None
-    )
-
-    data["remarks"] = (
-        remarks.group(1).strip()
-        if remarks else None
-    )
+        data["remarks"] = (
+            remarks.group(1).strip()
+        )
 
     return data

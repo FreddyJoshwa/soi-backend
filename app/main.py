@@ -10,6 +10,7 @@ from fastapi import Request
 from app.routes.frontend_routes import router as frontend_router
 from fastapi.middleware.cors import CORSMiddleware
 
+
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Compliance Intelligence API")

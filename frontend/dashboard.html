@@ -637,9 +637,9 @@ table td{
           Dashboard
         </a>
 
-        <a href="#">
-          <i class="fa-solid fa-upload"></i>
-          Upload Data
+       <a href="./uploadpage.html">
+      <i class="fa-solid fa-upload"></i>
+        Upload Data
         </a>
 
         <a href="#">
@@ -669,7 +669,7 @@ table td{
     <div class="logout">
 
       <div class="menu">
-        <a href="#">
+        <a href="login.html">
           <i class="fa-solid fa-right-from-bracket"></i>
           Logout
         </a>
@@ -836,35 +836,58 @@ table td{
 
       <!-- ACTIONS -->
 
-      <div class="panel">
+      <!-- REPLACE THIS ENTIRE QUICK ACTION SECTION -->
 
-        <h3 class="panel-title">
-          QUICK ACTION
-        </h3>
+<div class="panel">
 
-        <div class="actions">
+  <h3 class="panel-title">
+    QUICK ACTION
+  </h3>
 
-          <button class="action-btn">
-            Upload Report
-          </button>
+  <div class="actions">
 
-          <button class="action-btn">
-            Generate Report
-          </button>
+    <!-- UPLOAD REPORT -->
 
-          <button class="action-btn">
-            Update CTO
-          </button>
+    <button
+    class="action-btn"
+    onclick="goToUploadPage()">
 
-          <button class="action-btn">
-            View Alerts
-          </button>
+      Upload Report
 
-        </div>
+    </button>
 
-      </div>
+    <!-- GENERATE REPORT -->
 
-    </div>
+    <button
+    class="action-btn"
+    onclick="generateComplianceReport()">
+
+      Generate Report
+
+    </button>
+
+    <!-- UPDATE CTO -->
+
+    <button
+    class="action-btn">
+
+      Update CTO
+
+    </button>
+
+    <!-- VIEW ALERTS -->
+
+    <button
+    class="action-btn"
+    onclick="scrollToAlerts()">
+
+      View Alerts
+
+    </button>
+
+  </div>
+
+</div>
 
     <!-- BOTTOM -->
 
@@ -999,116 +1022,71 @@ table td{
 </div>
 
 <!-- CHART JS -->
+<!-- NOW REPLACE YOUR FULL <script> SECTION WITH THIS -->
 
 <script>
 
 /* =========================
-   AUTH CHECK
+   API BASE
 ========================= */
 
-const token =
-localStorage.getItem("token");
+const API_BASE =
+"http://127.0.0.1:8000";
 
 
-if(!token){
+/* =========================
+   GO TO UPLOAD PAGE
+========================= */
 
-    alert("Please Login First");
+function goToUploadPage(){
 
     window.location.href =
-    "/login";
+    "./uploadpage.html";
+
+}
+
+/* =========================
+   GENERATE PDF REPORT
+========================= */
+
+function generateComplianceReport(){
+
+    window.open(
+
+        `${API_BASE}/api/reports/generate-pdf`,
+
+        "_blank"
+
+    );
 
 }
 
 
-
 /* =========================
-   LOAD USER PROFILE
+   VIEW ALERTS
 ========================= */
 
-async function loadProfile(){
+function scrollToAlerts(){
 
-    try{
+    document.querySelector(
+    ".alert-panel"
+    ).scrollIntoView({
 
-        const response =
-        await fetch(
-        "http://localhost:5000/api/profile",
+        behavior:"smooth"
 
-        {
-            method:"GET",
-
-            headers:{
-                "Authorization":
-                `Bearer ${token}`
-            }
-        });
-
-        const data =
-        await response.json();
-
-        console.log(data);
-
-        if(response.ok){
-
-            document.querySelector(".profile h4")
-            .innerText =
-            data.user.fullName;
-
-        }
-
-        else{
-
-            localStorage.removeItem("token");
-
-            window.location.href =
-            "/login";
-        }
-
-    }
-
-    catch(error){
-
-        console.log(error);
-
-        alert("Failed To Load Profile");
-    }
+    });
 
 }
-
-
-loadProfile();
-
-
-
-/* =========================
-   LOGOUT
-========================= */
-
-const logoutBtn =
-document.querySelector(".logout a");
-
-
-logoutBtn.addEventListener("click",
-
-function(e){
-
-    e.preventDefault();
-
-    localStorage.removeItem("token");
-
-    alert("Logged Out");
-
-    window.location.href =
-    "/login";
-
-});
-
 
 
 /* =========================
    CHART JS
 ========================= */
 
-const ctx = document.getElementById('trendChart');
+const ctx =
+document.getElementById(
+'trendChart'
+);
 
 new Chart(ctx, {
 
