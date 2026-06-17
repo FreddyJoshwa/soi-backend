@@ -12,7 +12,7 @@ templates = Jinja2Templates(
 def login_page(request: Request):
 
     return templates.TemplateResponse(
-        "login.html",
+        "index.html",
         {"request": request}
     )
 

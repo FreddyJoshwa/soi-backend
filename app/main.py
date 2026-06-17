@@ -44,7 +44,7 @@ def root():
 def login_page(request: Request):
 
     return templates.TemplateResponse(
-        "login.html",
+        "index.html",
         {"request": request}
     )
 
@@ -62,5 +62,13 @@ def dashboard_page(request: Request):
 
     return templates.TemplateResponse(
         "dashboard.html",
+        {"request": request}
+    )
+
+@app.get("/uploadpage")
+def upload_page(request: Request):
+
+    return templates.TemplateResponse(
+        "uploadpage.html",
         {"request": request}
     )

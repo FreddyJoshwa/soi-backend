@@ -20,12 +20,18 @@ def extract_air_report_data(text):
     }
 
     # =========================
+    # CLEAN TEXT
+    # =========================
+
+    text = text.replace("\n", " ")
+
+    # =========================
     # COMPANY NAME
     # =========================
 
     company = re.search(
 
-        r"Company Name\s+(.*)",
+        r"Company\s*Name[:\s]+(.*?)(?:Monitoring|Sample|Date)",
 
         text,
 
@@ -44,7 +50,7 @@ def extract_air_report_data(text):
 
     monitoring_date = re.search(
 
-        r"Monitoring Date\s+(.*)",
+        r"Monitoring\s*Date[:\s]+([A-Za-z0-9\s:-]+)",
 
         text,
 
@@ -63,7 +69,7 @@ def extract_air_report_data(text):
 
     pm25 = re.search(
 
-        r"PM2\.5\)\s*(\d+(?:\.\d+)?)",
+        r"PM2\.?5.*?(\d+(?:\.\d+)?)\s*(?:µg|ug|mg)",
 
         text,
 
@@ -82,7 +88,7 @@ def extract_air_report_data(text):
 
     pm10 = re.search(
 
-        r"PM10\)\s*(\d+(?:\.\d+)?)",
+        r"PM10.*?(\d+(?:\.\d+)?)\s*(?:µg|ug|mg)",
 
         text,
 
@@ -101,7 +107,7 @@ def extract_air_report_data(text):
 
     so2 = re.search(
 
-        r"SO2\s*\)\s*(\d+(?:\.\d+)?)",
+        r"SO2.*?(\d+(?:\.\d+)?)\s*(?:mg|µg|ug)",
 
         text,
 
@@ -120,7 +126,7 @@ def extract_air_report_data(text):
 
     nox = re.search(
 
-        r"NOx\s*\)\s*(\d+(?:\.\d+)?)",
+        r"NOx.*?(\d+(?:\.\d+)?)\s*(?:mg|µg|ug)",
 
         text,
 
@@ -139,7 +145,7 @@ def extract_air_report_data(text):
 
     co = re.search(
 
-        r"CO\)\s*(\d+(?:\.\d+)?)",
+        r"CO.*?(\d+(?:\.\d+)?)\s*(?:mg|µg|ug)",
 
         text,
 
@@ -156,13 +162,13 @@ def extract_air_report_data(text):
     # STATUS
     # =========================
 
-    if "NON-COMPLIANT" in text:
+    if "NON-COMPLIANT" in text.upper():
 
         data["overall_status"] = (
             "NON-COMPLIANT"
         )
 
-    elif "COMPLIANT" in text:
+    elif "COMPLIANT" in text.upper():
 
         data["overall_status"] = (
             "COMPLIANT"
@@ -174,7 +180,7 @@ def extract_air_report_data(text):
 
     remarks = re.search(
 
-        r"Observations\s*&\s*Engineering Remarks\s*(.*?)\[",
+        r"(?:Remarks|Observations).*?(.*?)(?:Authorized|Signature|$)",
 
         text,
 
@@ -184,7 +190,7 @@ def extract_air_report_data(text):
     if remarks:
 
         data["remarks"] = (
-            remarks.group(1).strip()
+            remarks.group(1).strip()[:500]
         )
 
     return data

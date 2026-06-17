@@ -62,47 +62,93 @@ def get_dashboard_summary(db: Session = Depends(get_db)):
             active_alerts += 1
 
     return {
+        "company_name": (
+    user.company_name
+    if user else None
+),
+
+"industry_type": (
+    user.industry_type
+    if user else None
+),
+
+"location": (
+    f"{user.city}, {user.district}"
+    if user else None
+),
         "compliance_score": compliance_score,
         "compliance_status": compliance_status,
 
         "cto_status": cto_status,
         "cto_expiry_days": cto_expiry_days,
 
-        "generated_reports": db.query(ComplianceReport).count(),
+        "generated_reports": (
+    db.query(ExtractedReport).count()
+    +
+    db.query(AirReport).count()
+),
 
         "active_alerts": active_alerts
+        
+        
     }
 
 # ==============================
 # LIVE COMPLIANCE STATUS
 # ==============================
 @router.get("/live-status")
-def get_live_status():
+def get_live_status(
+    db: Session = Depends(get_db)
+):
+
+    latest_water = (
+        db.query(ExtractedReport)
+        .order_by(ExtractedReport.id.desc())
+        .first()
+    )
+
+    if not latest_water:
+        return []
 
     return [
+
         {
             "parameter": "pH",
-            "value": 7.2,
+            "value": latest_water.ph,
             "status": "Safe"
+            if latest_water.ph and
+            6.5 <= latest_water.ph <= 8.5
+            else "Warning"
         },
+
         {
             "parameter": "TDS",
-            "value": 480,
+            "value": latest_water.tds,
             "status": "Safe"
+            if latest_water.tds and
+            latest_water.tds <= 2100
+            else "Warning"
         },
+
         {
             "parameter": "COD",
-            "value": 260,
-            "status": "Warning"
+            "value": latest_water.cod,
+            "status": "Safe"
+            if latest_water.cod and
+            latest_water.cod <= 250
+            else "Critical"
         },
+
         {
             "parameter": "BOD",
-            "value": 40,
-            "status": "Critical"
+            "value": latest_water.bod,
+            "status": "Safe"
+            if latest_water.bod and
+            latest_water.bod <= 30
+            else "Critical"
         }
+
     ]
-
-
 # ==============================
 # COMPLIANCE TREND GRAPH
 # ==============================

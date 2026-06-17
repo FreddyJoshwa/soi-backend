@@ -21,12 +21,21 @@ def extract_water_report_data(text):
     }
 
     # =========================
+    # CLEAN TEXT
+    # =========================
+
+    clean_text = text.replace("\n", " ")
+
+    # =========================
     # COMPANY NAME
     # =========================
 
     company = re.search(
-        r"Company Name\s*:\s*(.*)",
-        text,
+
+        r"Company\s*Name[:\s]+(.*?)(?:Sample|Collection|Date)",
+
+        clean_text,
+
         re.IGNORECASE
     )
 
@@ -41,8 +50,11 @@ def extract_water_report_data(text):
     # =========================
 
     sample_type = re.search(
-        r"Sample Type\s*:\s*(.*)",
-        text,
+
+        r"Sample\s*Type[:\s]+(.*?)(?:Collection|Analysis|Date)",
+
+        clean_text,
+
         re.IGNORECASE
     )
 
@@ -57,8 +69,11 @@ def extract_water_report_data(text):
     # =========================
 
     collection_date = re.search(
-        r"Collection Date\s*:\s*(.*)",
-        text,
+
+        r"Collection\s*Date[:\s]+([A-Za-z0-9\s:-]+)",
+
+        clean_text,
+
         re.IGNORECASE
     )
 
@@ -73,8 +88,11 @@ def extract_water_report_data(text):
     # =========================
 
     analysis_date = re.search(
-        r"Analysis Date\s*:\s*(.*)",
-        text,
+
+        r"Analysis\s*Date[:\s]+([A-Za-z0-9\s:-]+)",
+
+        clean_text,
+
         re.IGNORECASE
     )
 
@@ -89,79 +107,99 @@ def extract_water_report_data(text):
     # =========================
 
     ph = re.search(
-        r"pH\s*\(at.*?\)\s*-\s*(\d+\.\d+)",
-        text,
+
+        r"pH.*?(\d+(?:\.\d+)?)",
+
+        clean_text,
+
         re.IGNORECASE
     )
 
     if ph:
 
-        data["ph"] = float(
-            ph.group(1)
-        )
+        value = float(ph.group(1))
+
+        if 0 <= value <= 14:
+
+            data["ph"] = value
 
     # =========================
     # TDS
     # =========================
 
     tds = re.search(
-        r"TDS\)\s*mg/L\s*(\d+)",
-        text,
+
+        r"TDS.*?(\d+(?:\.\d+)?)\s*(?:mg/L|mg|ppm)?",
+
+        clean_text,
+
         re.IGNORECASE
     )
 
     if tds:
 
-        data["tds"] = float(
-            tds.group(1)
-        )
+        value = float(tds.group(1))
+
+        if value > 10:
+
+            data["tds"] = value
 
     # =========================
     # COD
     # =========================
 
     cod = re.search(
-        r"COD\)\s*mg/L\s*(\d+)",
-        text,
+
+        r"COD.*?(\d+(?:\.\d+)?)\s*(?:mg/L|mg)?",
+
+        clean_text,
+
         re.IGNORECASE
     )
 
     if cod:
 
-        data["cod"] = float(
-            cod.group(1)
-        )
+        value = float(cod.group(1))
+
+        if value > 1:
+
+            data["cod"] = value
 
     # =========================
     # BOD
     # =========================
 
     bod = re.search(
-        r"BOD\)\s*mg/L\s*(\d+)",
-        text,
+
+        r"BOD.*?(\d+(?:\.\d+)?)\s*(?:mg/L|mg)?",
+
+        clean_text,
+
         re.IGNORECASE
     )
 
     if bod:
 
-        data["bod"] = float(
-            bod.group(1)
-        )
+        value = float(bod.group(1))
+
+        if value > 1:
+
+            data["bod"] = value
 
     # =========================
     # STATUS
     # =========================
 
-    status = re.search(
-        r"Overall Compliance Status:\s*(\w+)",
-        text,
-        re.IGNORECASE
-    )
-
-    if status:
+    if "NON-COMPLIANT" in clean_text.upper():
 
         data["overall_status"] = (
-            status.group(1).strip()
+            "NON-COMPLIANT"
+        )
+
+    elif "COMPLIANT" in clean_text.upper():
+
+        data["overall_status"] = (
+            "COMPLIANT"
         )
 
     # =========================
@@ -169,15 +207,18 @@ def extract_water_report_data(text):
     # =========================
 
     remarks = re.search(
-        r"Remarks:\s*(.*?)\[",
-        text,
+
+        r"(?:Remarks|Observation).*?(.*?)(?:Authorized|Signature|Dr\.|$)",
+
+        clean_text,
+
         re.IGNORECASE | re.DOTALL
     )
 
     if remarks:
 
         data["remarks"] = (
-            remarks.group(1).strip()
+            remarks.group(1).strip()[:500]
         )
 
     return data

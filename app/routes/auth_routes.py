@@ -83,15 +83,36 @@ def verify_otp(data: VerifyOTPRequest, db: Session = Depends(get_db)):
 
 
 @router.post("/register", response_model=TokenResponse, status_code=status.HTTP_201_CREATED)
-def register_user(user_data: UserRegister, db: Session = Depends(get_db)):
-    existing_email = db.query(User).filter(User.email == user_data.email).first()
+@router.post(
+    "/register",
+    response_model=TokenResponse,
+    status_code=status.HTTP_201_CREATED
+)
+def register_user(
+    user_data: UserRegister,
+    db: Session = Depends(get_db)
+):
+
+    existing_email = (
+        db.query(User)
+        .filter(User.email == user_data.email)
+        .first()
+    )
+
     if existing_email:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Email already registered"
         )
 
-    existing_phone = db.query(User).filter(User.phone_number == user_data.phone_number).first()
+    existing_phone = (
+        db.query(User)
+        .filter(
+            User.phone_number == user_data.phone_number
+        )
+        .first()
+    )
+
     if existing_phone:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -104,7 +125,9 @@ def register_user(user_data: UserRegister, db: Session = Depends(get_db)):
             OTPVerification.email == user_data.email,
             OTPVerification.is_verified == True
         )
-        .order_by(OTPVerification.id.desc())
+        .order_by(
+            OTPVerification.id.desc()
+        )
         .first()
     )
 
@@ -114,27 +137,40 @@ def register_user(user_data: UserRegister, db: Session = Depends(get_db)):
             detail="Please verify OTP before registering"
         )
 
+    # Password Hash
+    hashed_password = hash_password(
+        user_data.password
+    )
+
+    # Create User
     new_user = User(
+
         full_name=user_data.full_name,
+
         email=user_data.email,
+
         phone_number=user_data.phone_number,
-        password=hash_password(user_data.password),
+
+        password=hashed_password,
 
         company_name=user_data.company_name,
+
         industry_type=user_data.industry_type,
-        city=user_data.city,
-        district=user_data.district,
+
         state=user_data.state,
+
+        district=user_data.district,
+
+        city=user_data.city,
+
         address=user_data.address,
 
-        role=user_data.role,
-        production_type=user_data.production_type,
-        water_source=user_data.water_source,
-        etp_available=user_data.etp_available,
-
         cto_available=user_data.cto_available,
+
         cto_number=user_data.cto_number,
+
         cto_issue_date=user_data.cto_issue_date,
+
         cto_expiry_date=user_data.cto_expiry_date,
 
         is_verified=True
@@ -144,18 +180,26 @@ def register_user(user_data: UserRegister, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(new_user)
 
-    db.query(OTPVerification).filter(OTPVerification.email == user_data.email).delete()
+    # Delete OTP after registration
+    db.query(OTPVerification).filter(
+        OTPVerification.email == user_data.email
+    ).delete()
+
     db.commit()
 
-    token = create_access_token({"sub": str(new_user.id)})
+    token = create_access_token(
+        {"sub": str(new_user.id)}
+    )
 
     return {
         "message": "User registered successfully",
+
         "access_token": token,
+
         "token_type": "bearer",
+
         "user": new_user
     }
-
 
 @router.post("/login", response_model=TokenResponse)
 def login_user(login_data: UserLogin, db: Session = Depends(get_db)):

@@ -171,6 +171,44 @@ body{
 
 }
 
+/*contine button*/
+#continueBtn{
+
+    width: 100%;
+
+    background-color: #15803d;
+
+    color: white;
+
+    padding: 14px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+
+#continueBtn:hover{
+
+    background-color: #166534;
+
+}
+
+
+#continueBtn:disabled{
+
+    background-color: #86efac;
+
+    cursor: not-allowed;
+}
 
 
 /* STEP 2 */
@@ -178,6 +216,95 @@ body{
 #form-step-2{
 
     display:none;
+
+}
+
+
+
+
+
+
+
+
+.small-select{
+
+    width:100%;
+
+    height:44px;
+
+    border:1px solid #dbe2ea;
+
+    border-radius:12px;
+
+    padding-left:38px;
+
+    padding-right:12px;
+
+    background:#f8fafc;
+
+    font-size:13px;
+
+    font-weight:500;
+
+    color:#1e293b;
+
+    outline:none;
+
+    transition:0.3s ease;
+
+    appearance:none;
+
+    cursor:pointer;
+}
+
+
+.small-input{
+
+    width:100%;
+
+    height:44px;
+
+    border:1px solid #dbe2ea;
+
+    border-radius:12px;
+
+    padding:0 14px;
+
+    background:#f8fafc;
+
+    font-size:13px;
+
+    font-weight:500;
+
+    color:#1e293b;
+
+    outline:none;
+
+    transition:0.3s ease;
+}
+
+
+.small-input:focus{
+
+    border-color:#2E8B57;
+
+    background:white;
+
+    box-shadow:
+    0 0 0 3px
+    rgba(46,139,87,0.12);
+
+}
+
+.small-select:focus{
+
+    border-color:#2E8B57;
+
+    background:white;
+
+    box-shadow:
+    0 0 0 3px
+    rgba(46,139,87,0.12);
 
 }
 
@@ -257,11 +384,10 @@ body{
     <i class="fa-regular fa-user absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
 
     <input
-type="text"
-id="fullName"
-class="input-box"
-placeholder="Full Name"
-required>
+    type="text"
+    class="input-box"
+    placeholder="Full Name"
+    required>
 
 </div>
 
@@ -273,12 +399,11 @@ required>
 
     <i class="fa-regular fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
 
-  <input
-type="email"
-id="email"
-class="input-box"
-placeholder="Email Address"
-required>
+    <input
+    type="email"
+    class="input-box"
+    placeholder="Email Address"
+    required>
 
 </div>
 
@@ -290,13 +415,12 @@ required>
 
     <i class="fa-solid fa-phone absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
 
-   <input
-type="tel"
-id="phone"
-class="input-box"
-placeholder="Phone Number"
-required
-pattern="[0-9]{10}">
+    <input
+    type="tel"
+    class="input-box"
+    placeholder="Phone Number"
+    required
+    pattern="[0-9]{10}">
 
 </div>
 
@@ -308,9 +432,9 @@ pattern="[0-9]{10}">
 
     <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
 
-   <input
-type="password"
+<input
 id="password"
+type="password"
 class="input-box"
 placeholder="Password"
 required>
@@ -325,9 +449,9 @@ required>
 
     <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
 
- <input
-type="password"
+<input
 id="confirmPassword"
+type="password"
 class="input-box"
 placeholder="Confirm Password"
 required>
@@ -339,12 +463,9 @@ required>
 <!-- BUTTON -->
 
 <button
-type="button"
-onclick="goToStep2()"
-class="main-btn mt-2">
-
-    Continue 
-
+id="continueBtn"
+onclick="goToStep2()">
+    Continue
 </button>
 
 
@@ -355,7 +476,7 @@ class="main-btn mt-2">
 
         Already have an account?
 
-        <a href="login.html"
+        <a href="index.html"
         class="text-[#2E8B57] font-semibold hover:underline">
 
             Sign In
@@ -404,12 +525,11 @@ class="main-btn mt-2">
 
     <i class="fa-regular fa-building absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
 
-   <input
-type="text"
-id="companyName"
-class="input-box"
-placeholder="Company Name"
-required>
+    <input
+    type="text"
+    class="input-box"
+    placeholder="Company Name"
+    required>
 
 </div>
 
@@ -421,10 +541,7 @@ required>
 
     <i class="fa-solid fa-industry absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
 
-   <select
-id="industry"
-class="input-box appearance-none"
-required>
+    <select class="input-box appearance-none" required>
 
         <option value="" disabled selected>
             Select Industry
@@ -457,6 +574,9 @@ class="border border-slate-200 rounded-xl px-3 py-3 outline-none focus:border-[#
     <option value="">
         State
     </option>
+     <option>Kerala</option>
+     <option>Tamil Nadu</option>
+     <option>Karnataka</option>
 
 </select>
 
@@ -472,6 +592,9 @@ class="border border-slate-200 rounded-xl px-3 py-3 outline-none focus:border-[#
     <option value="">
         District
     </option>
+     <option>chennai</option>
+     <option>Coimbatore</option>
+     <option>Trichy</option>
 
 </select>
 
@@ -487,6 +610,9 @@ class="border border-slate-200 rounded-xl px-3 py-3 outline-none focus:border-[#
     <option value="">
         City
     </option>
+     <option>RS Puram</option>
+     <option>Peelambedu</option>
+     <option>Gandhipuram</option>
 
 </select>
 
@@ -495,29 +621,124 @@ class="border border-slate-200 rounded-xl px-3 py-3 outline-none focus:border-[#
 
 
 
-<!-- ROLE -->
+
+
+
+<!-- BASIC SETUP -->
+
+
+
+
+
+
+
+
+<!-- ROW 2 -->
+
+
+
+  
+     
+
+
+
+  <!-- CTO SECTION -->
 
 <div class="relative">
 
-    <i class="fa-regular fa-id-card absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+    <i class="fa-solid fa-file-circle-check absolute left-3 top-1/2 -translate-y-1/2 text-[#2E8B57] text-sm"></i>
 
-    <select class="input-box appearance-none" required>
+    <select
+    id="ctoAvailable"
+    class="small-select"
+    onchange="toggleCTOFields()"
+    required>
 
         <option value="" disabled selected>
-            Select Role
+            CTO Available
         </option>
 
-        <option>Owner</option>
+        <option value="Yes">
+            Yes
+        </option>
 
-        <option>Manager</option>
-
-        <option>Operator</option>
+        <option value="No">
+            No
+        </option>
 
     </select>
 
 </div>
 
 
+
+<!-- CTO EXTRA FIELDS -->
+
+<div
+id="ctoFields"
+class="hidden space-y-3 mt-3">
+
+
+    <!-- CTO NUMBER -->
+
+    <div class="relative">
+
+        <i class="fa-solid fa-file-signature absolute left-3 top-1/2 -translate-y-1/2 text-[#2E8B57] text-sm"></i>
+
+        <input
+        id="ctoNumber"
+        type="text"
+        class="small-input"
+        placeholder="   CTO Number">
+
+    </div>
+
+
+
+    <!-- CTO DATES -->
+
+    <div class="grid grid-cols-2 gap-3">
+
+
+        <!-- ISSUE DATE -->
+
+        <div class="relative">
+
+              <label class="text-xs text-slate-500 font-medium mb-1 block">
+
+            CTO Issue Date
+
+        </label>
+
+            <input
+            id="ctoIssueDate"
+            type="date"
+            class="small-input">
+
+        </div>
+
+
+
+        <!-- EXPIRY DATE -->
+
+        <div class="relative">
+
+              <label class="text-xs text-slate-500 font-medium mb-1 block">
+
+            CTO Expiry Date
+
+        </label>
+
+            <input
+            id="ctoExpiryDate"
+            type="date"
+            class="small-input">
+
+        </div>
+
+    </div>
+
+</div>
 
 <!-- BUTTONS -->
 
@@ -555,446 +776,48 @@ class="w-2/3 main-btn">
 
 
 
-
 <script>
 
-function showLoader(){
+// ======================================
+// STEP ELEMENTS
+// ======================================
 
-    console.log("Loading...");
-}
+const step1 =
+document.getElementById("form-step-1");
 
-function hideLoader(){
+const step2 =
+document.getElementById("form-step-2");
 
-    console.log("Hide Loader");
-}
+const badge1 =
+document.getElementById("badge1");
 
-function showToast(message, type="success"){
+const badge2 =
+document.getElementById("badge2");
 
-    alert(message);
-}
+const stepText =
+document.getElementById("stepText");
 
-const API_BASE_URL = "http://127.0.0.1:8000";
 
-const step1 = document.getElementById("form-step-1");
-const step2 = document.getElementById("form-step-2");
 
-const badge1 = document.getElementById("badge1");
-const badge2 = document.getElementById("badge2");
+// ======================================
+// PASSWORDS
+// ======================================
 
-const stepText = document.getElementById("stepText");
+const password =
+document.getElementById(
+"password"
+);
 
-let generatedOTP = "";
+const confirmPassword =
+document.getElementById(
+"confirmPassword"
+);
 
 
-// =============================
-// STEP 1 VALIDATION
-// =============================
-async function goToStep2(){
 
-    const fullName =
-    document.getElementById("fullName").value;
-
-    const email =
-    document.getElementById("email").value;
-
-    const phone =
-    document.getElementById("phone").value;
-
-    const password =
-    document.getElementById("password").value;
-
-    const confirmPassword =
-    document.getElementById("confirmPassword").value;
-
-
-    if(
-        !fullName ||
-        !email ||
-        !phone ||
-        !password ||
-        !confirmPassword
-    ){
-        alert("Please fill all fields");
-        return;
-    }
-
-
-    if(password !== confirmPassword){
-
-        alert("Passwords do not match");
-
-        return;
-    }
-
-
-    try{
-
-        const response = await fetch(
-            `${API_BASE_URL}/api/auth/send-otp`,
-            {
-                method: "POST",
-
-                headers: {
-                    "Content-Type":
-                    "application/json"
-                },
-
-                body: JSON.stringify({
-                    email: email
-                })
-            }
-        );
-
-        const data = await response.json();
-
-        if(response.ok){
-
-            alert(
-                "OTP sent to your email"
-            );
-
-            document
-            .getElementById("otpModal")
-            .classList
-            .remove("hidden");
-
-            document
-            .getElementById("otpModal")
-            .classList
-            .add("flex");
-
-        }
-        else{
-
-            alert(
-                data.detail ||
-                "Failed to send OTP"
-            );
-        }
-
-    }
-    catch(error){
-
-        console.error(error);
-
-        alert(
-            "Backend Connection Error"
-        );
-    }
-}
-
-// =============================
-// VERIFY OTP
-// =============================
-async function verifyOTP(){
-
-    const email =
-    document.getElementById("email").value;
-
-    const enteredOTP =
-    document.getElementById("otpInput").value;
-
-
-    try{
-
-        const response = await fetch(
-            `${API_BASE_URL}/api/auth/verify-otp`,
-            {
-                method: "POST",
-
-                headers: {
-                    "Content-Type":
-                    "application/json"
-                },
-
-                body: JSON.stringify({
-
-                    email: email,
-                    otp: enteredOTP
-                })
-            }
-        );
-
-        const data = await response.json();
-
-        if(!response.ok){
-
-            alert(
-                data.detail ||
-                "Invalid OTP"
-            );
-
-            return;
-        }
-
-
-        document
-        .getElementById("otpModal")
-        .classList
-        .add("hidden");
-
-        step1.style.display = "none";
-
-        step2.style.display = "block";
-
-
-        badge1.classList.remove(
-            "bg-[#2E8B57]",
-            "text-white"
-        );
-
-        badge1.classList.add(
-            "bg-green-100",
-            "text-[#2E8B57]"
-        );
-
-        badge2.classList.remove(
-            "bg-slate-100",
-            "text-slate-400"
-        );
-
-        badge2.classList.add(
-            "bg-[#2E8B57]",
-            "text-white"
-        );
-
-        stepText.innerText =
-        "Step 2 of 2";
-
-        alert(
-            "OTP Verified Successfully"
-        );
-
-    }
-    catch(error){
-
-        console.error(error);
-
-        alert(
-            "Backend Connection Error"
-        );
-    }
-}
-// =============================
-// BACK BUTTON
-// =============================
-
-function goToStep1(){
-
-    step2.style.display = "none";
-    step1.style.display = "block";
-
-    badge1.classList.remove(
-        "bg-green-100",
-        "text-[#2E8B57]"
-    );
-
-    badge1.classList.add(
-        "bg-[#2E8B57]",
-        "text-white"
-    );
-
-    badge2.classList.remove(
-        "bg-[#2E8B57]",
-        "text-white"
-    );
-
-    badge2.classList.add(
-        "bg-slate-100",
-        "text-slate-400"
-    );
-
-    stepText.innerText = "Step 1 of 2";
-}
-
-
-// =============================
-// CREATE ACCOUNT
-// =============================
-async function createAccount(){
-
-    const fullName =
-    document.getElementById("fullName").value;
-
-    const email =
-    document.getElementById("email").value;
-
-    const phone =
-    document.getElementById("phone").value;
-
-    const password =
-    document.getElementById("password").value;
-
-    const companyName =
-    document.getElementById("companyName").value;
-
-    const industry =
-    document.getElementById("industry").value;
-
-    const state =
-    document.getElementById("state").value;
-
-    const district =
-    document.getElementById("district").value;
-
-    const city =
-    document.getElementById("city").value;
-
-    const role =
-    document.getElementById("role").value;
-
-
-    if(
-        !companyName ||
-        !industry ||
-        !state ||
-        !district ||
-        !city ||
-        !role
-    ){
-
-        showToast(
-        "Please fill all company details",
-        "error"
-        );
-
-        return;
-    }
-
-
-    showLoader();
-
-    try{
-
-        const response =
-        await fetch(
-
-            `${API_BASE_URL}/api/auth/register`,
-
-            {
-                method:"POST",
-
-                headers:{
-                    "Content-Type":
-                    "application/json"
-                },
-
-                body:JSON.stringify({
-
-                    full_name:fullName,
-
-                    email:email,
-
-                    phone:phone,
-
-                    password:password,
-
-                    company_name:companyName,
-
-                    industry:industry,
-
-                    state:state,
-
-                    district:district,
-
-                    city:city,
-
-                    role:role
-                })
-            }
-        );
-
-        const data =
-        await response.json();
-
-        hideLoader();
-
-
-        if(response.ok){
-
-            showToast(
-            "Account Created Successfully"
-            );
-
-            setTimeout(() => {
-
-                window.location.href =
-                "/login";
-
-            }, 1500);
-
-        }
-
-        else{
-
-            showToast(
-
-                data.detail ||
-                "Registration Failed",
-
-                "error"
-            );
-        }
-
-    }
-
-    catch(error){
-
-        hideLoader();
-
-        console.log(error);
-
-        showToast(
-
-            "Backend Connection Error",
-
-            "error"
-        );
-    }
-}
-
-// ==========================
-// LOCATION DATA
-// ==========================
-
-const locationData = {
-
-    "Tamil Nadu": {
-
-        "Chennai": [
-            "Tambaram",
-            "Guindy",
-            "T Nagar"
-        ],
-
-        "Coimbatore": [
-            "Gandhipuram",
-            "RS Puram",
-            "Peelamedu"
-        ],
-
-        "Tiruppur": [
-            "Avinashi",
-            "Palladam",
-            "Dharapuram"
-        ]
-    },
-
-    "Karnataka": {
-
-        "Bangalore": [
-            "Whitefield",
-            "Indiranagar",
-            "Electronic City"
-        ],
-
-        "Mysore": [
-            "Nazarbad",
-            "VV Mohalla"
-        ]
-    }
-};
-
+// ======================================
+// LOCATION SELECTS
+// ======================================
 
 const stateSelect =
 document.getElementById("state");
@@ -1006,72 +829,421 @@ const citySelect =
 document.getElementById("city");
 
 
-// LOAD STATES
 
-for(let state in locationData){
+// ======================================
+// SEND OTP
+// ======================================
 
-    stateSelect.innerHTML +=
-    `<option value="${state}">
-        ${state}
-    </option>`;
+async function goToStep2(){
+
+    const continueBtn =
+    document.getElementById(
+    "continueBtn"
+    );
+
+    continueBtn.disabled = true;
+
+    try{
+
+        const inputs =
+        step1.querySelectorAll("input");
+
+        for(let input of inputs){
+
+            if(!input.checkValidity()){
+
+                input.reportValidity();
+
+                continueBtn.disabled = false;
+
+                return;
+            }
+
+        }
+
+        if(password.value !== confirmPassword.value){
+
+            alert("Passwords do not match");
+
+            continueBtn.disabled = false;
+
+            return;
+        }
+
+        const email =
+        document.querySelector(
+        'input[type="email"]'
+        ).value;
+
+        const response = await fetch(
+        "http://localhost:8000/api/auth/send-otp",
+        {
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify({
+                email:email
+            })
+        });
+
+        const result =
+        await response.json();
+
+        console.log(result);
+
+        if(response.ok){
+
+            document
+            .getElementById("otpModal")
+            .classList
+            .remove("hidden");
+
+            document
+            .getElementById("otpModal")
+            .classList
+            .add("flex");
+
+            alert("OTP sent successfully");
+
+        }else{
+
+            alert(result.detail);
+
+        }
+
+    }catch(error){
+
+        console.log(error);
+
+        alert(error.message);
+
+    }finally{
+
+        continueBtn.disabled = false;
+
+    }
+
 }
 
 
-// STATE CHANGE
 
-stateSelect.addEventListener(
-"change",
-function(){
+// ======================================
+// VERIFY OTP
+// ======================================
 
-    districtSelect.innerHTML =
-    `<option value="">
-        District
-    </option>`;
+async function verifyOTP(){
 
-    citySelect.innerHTML =
-    `<option value="">
-        City
-    </option>`;
+    const enteredOTP =
+    document.getElementById(
+    "otpInput"
+    ).value;
 
-    let districts =
-    locationData[this.value];
+    const email =
+    document.querySelector(
+    'input[type="email"]'
+    ).value;
 
-    for(let district in districts){
+    try{
 
-        districtSelect.innerHTML +=
-        `<option value="${district}">
-            ${district}
-        </option>`;
+        const response = await fetch(
+        "http://localhost:8000/api/auth/verify-otp",
+        {
+            method:"POST",
+
+            headers:{
+                "Content-Type":
+                "application/json"
+            },
+
+            body:JSON.stringify({
+                email:email,
+                otp:enteredOTP
+            })
+        });
+
+        const result =
+        await response.json();
+
+        console.log(result);
+
+        if(response.ok){
+
+            document
+            .getElementById("otpModal")
+            .classList
+            .add("hidden");
+
+            step1.style.display =
+            "none";
+
+            step2.style.display =
+            "block";
+
+            badge1.classList.remove(
+                "bg-[#2E8B57]",
+                "text-white"
+            );
+
+            badge1.classList.add(
+                "bg-green-100",
+                "text-[#2E8B57]"
+            );
+
+            badge2.classList.remove(
+                "bg-slate-100",
+                "text-slate-400"
+            );
+
+            badge2.classList.add(
+                "bg-[#2E8B57]",
+                "text-white"
+            );
+
+            stepText.innerText =
+            "STEP 2 OF 2";
+
+            alert(
+                "OTP verified successfully"
+            );
+
+        }else{
+
+            alert(result.detail);
+
+        }
+
+    }catch(error){
+
+        console.log(error);
+
+        alert(error.message);
+
     }
-});
+
+}
 
 
-// DISTRICT CHANGE
 
-districtSelect.addEventListener(
-"change",
-function(){
 
-    citySelect.innerHTML =
-    `<option value="">
-        City
-    </option>`;
+function toggleCTOFields(){
 
-    let cities =
-    locationData[
-        stateSelect.value
-    ][
-        this.value
-    ];
+    const ctoValue =
+    document.getElementById(
+    "ctoAvailable"
+    ).value;
 
-    cities.forEach(city => {
+    const ctoFields =
+    document.getElementById(
+    "ctoFields"
+    );
 
-        citySelect.innerHTML +=
-        `<option value="${city}">
-            ${city}
-        </option>`;
-    });
-});
+    const ctoNumber =
+    document.getElementById(
+    "ctoNumber"
+    );
+
+    const issueDate =
+    document.getElementById(
+    "ctoIssueDate"
+    );
+
+    const expiryDate =
+    document.getElementById(
+    "ctoExpiryDate"
+    );
+
+
+
+    if(ctoValue === "Yes"){
+
+        ctoFields.classList.remove(
+        "hidden"
+        );
+
+        ctoNumber.required = true;
+
+        issueDate.required = true;
+
+        expiryDate.required = true;
+
+    }else{
+
+        ctoFields.classList.add(
+        "hidden"
+        );
+
+        ctoNumber.required = false;
+
+        issueDate.required = false;
+
+        expiryDate.required = false;
+
+    }
+
+}
+
+
+
+// ======================================
+// CREATE ACCOUNT
+// ======================================
+
+async function createAccount(){
+
+    try{
+
+        const data = {
+
+    full_name:
+    document.querySelector(
+    'input[placeholder="Full Name"]'
+    ).value,
+
+    email:
+    document.querySelector(
+    'input[type="email"]'
+    ).value,
+
+    phone_number:
+    document.querySelector(
+    'input[type="tel"]'
+    ).value,
+
+    password:
+    password.value,
+
+    confirm_password:
+    confirmPassword.value,
+
+    company_name:
+    document.querySelector(
+    'input[placeholder="Company Name"]'
+    ).value,
+
+    industry_type:
+    document.querySelectorAll(
+    "select"
+    )[0].value,
+
+    state:
+    stateSelect.value,
+
+    district:
+    districtSelect.value,
+
+    city:
+    citySelect.value,
+
+    address:
+    "Address",
+
+    cto_available:
+    document.getElementById(
+    "ctoAvailable"
+    ).value,
+
+    cto_number:
+    document.getElementById(
+    "ctoNumber"
+    )?.value || null,
+
+    cto_issue_date:
+    document.getElementById(
+    "ctoIssueDate"
+    )?.value || null,
+
+    cto_expiry_date:
+    document.getElementById(
+    "ctoExpiryDate"
+    )?.value || null
+};
+
+        console.log(data);
+
+        const response = await fetch(
+            "http://127.0.0.1:8000/api/auth/register",
+            {
+                method:"POST",
+
+                headers:{
+                    "Content-Type":
+                    "application/json"
+                },
+
+                body:JSON.stringify(data)
+            }
+        );
+
+        const result =
+        await response.json();
+
+        console.log(result);
+
+        if(response.ok){
+
+            alert(
+            "Account Created Successfully"
+            );
+
+            window.location.href =
+            "index.html";
+
+      }else{
+
+    console.log(result);
+
+    alert(
+    JSON.stringify(result)
+    );
+
+}
+
+    }catch(error){
+
+        console.log(error);
+
+        alert(error.message);
+
+    }
+
+}
+// ======================================
+// BACK BUTTON
+// ======================================
+
+function goToStep1(){
+
+    step2.style.display = "none";
+
+    step1.style.display = "block";
+
+    badge1.classList.remove(
+    "bg-green-100",
+    "text-[#2E8B57]"
+    );
+
+    badge1.classList.add(
+    "bg-[#2E8B57]",
+    "text-white"
+    );
+
+    badge2.classList.remove(
+    "bg-[#2E8B57]",
+    "text-white"
+    );
+
+    badge2.classList.add(
+    "bg-slate-100",
+    "text-slate-400"
+    );
+
+    stepText.innerText =
+    "STEP 1 OF 2";
+
+}
 
 </script>
 <!-- OTP MODAL -->
