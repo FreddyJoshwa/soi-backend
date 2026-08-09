@@ -160,3 +160,112 @@ View Compliance Trends
 
 Generate Compliance Report
 
+Technology Stack
+Backend
+Python
+FastAPI
+SQLAlchemy
+PyMySQL
+Uvicorn
+Database
+MySQL
+MySQL Workbench
+Frontend
+HTML
+CSS
+JavaScript
+Jinja2
+Other Tools
+Git & GitHub
+Postman
+Swagger UI
+Project Structure
+backend/
+│
+├── app/
+│   ├── main.py
+│   ├── database.py
+│   ├── models.py
+│   ├── pdf_utils.py
+│   ├── compliance_engine.py
+│   │
+│   ├── extractors/
+│   │   ├── water_report_extractor.py
+│   │   └── air_report_extractor.py
+│   │
+│   └── routes/
+│       ├── document_routes.py
+│       ├── dashboard_routes.py
+│       └── report_routes.py
+│
+├── templates/
+│   └── compliance_report.html
+│
+├── uploads/
+├── reports/
+├── requirements.txt
+└── README.md
+Database
+
+MySQL is used to store user, company, document, and compliance report information.
+
+Main tables include:
+
+users
+otp_verifications
+documents
+extracted_reports
+compliance_reports
+
+Each uploaded document is connected with the respective user/company.
+
+API
+
+Some of the main APIs are:
+
+POST /api/documents/upload
+GET  /api/documents/all
+GET  /api/documents/extract/{document_id}
+GET  /api/documents/analyze/{document_id}
+GET  /api/documents/summary
+GET  /api/dashboard/compliance-trends
+GET  /api/reports/preview
+Running the Project
+
+Create a virtual environment:
+
+python -m venv .venv
+
+Activate it:
+
+.venv\Scripts\activate
+
+Install the required packages:
+
+pip install -r requirements.txt
+
+Create the MySQL database:
+
+CREATE DATABASE compliance_db;
+
+Configure the database connection in the .env file.
+
+Run the backend:
+
+uvicorn app.main:app --reload
+
+Open Swagger API documentation:
+
+http://127.0.0.1:8000/docs
+Future Improvements
+Improve AI-based document understanding
+Add Waste Report processing
+Add ESG reporting
+Add more environmental parameters
+Improve compliance report PDF design
+Add automated compliance notifications
+Connect real-time environmental sensors
+Complete automated regulatory report submission
+Project Purpose
+
+The main idea of this project is to reduce the manual work involved in checking environmental laboratory reports and help industries monitor their compliance through a single platform.
