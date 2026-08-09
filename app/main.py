@@ -9,12 +9,12 @@ from fastapi.responses import HTMLResponse
 from fastapi import Request
 from app.routes.frontend_routes import router as frontend_router
 from fastapi.middleware.cors import CORSMiddleware
-
+from app.routes.alert_routes import router as alert_router
 
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Compliance Intelligence API")
-
+app.include_router(alert_router)
 app.include_router(auth_router)
 app.include_router(dashboard_router)
 app.include_router(document_router)

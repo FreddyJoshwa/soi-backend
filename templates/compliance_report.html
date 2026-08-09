@@ -534,60 +534,121 @@
     </tr>
 
     <tr>
+<td>pH</td>
 
-        <td>pH</td>
+<td>
+    {{ ph if ph is not none else "N/A" }}
+</td>
 
-        <td>{{ ph }}</td>
+<td>6.5 - 8.5</td>
 
-        <td>6.5 - 8.5</td>
+<td class="{% if ph is not none and ph >= 6.5 and ph <= 8.5 %}status-good{% else %}status-bad{% endif %}">
 
-        <td class="status-good">
+    {% if ph is none %}
+
+        Not Available
+
+    {% elif ph >= 6.5 and ph <= 8.5 %}
+
+        Compliant
+
+    {% else %}
+
+        Out of Range
+
+    {% endif %}
+
+</td>
+
+    </tr>
+
+    <tr>
+
+        <tr>
+
+    <td>TDS</td>
+
+    <td>{{ tds if tds is not none else "N/A" }} mg/L</td>
+
+    <td>2100 mg/L</td>
+
+    <td class="{% if tds is not none and tds <= 2100 %}status-good{% else %}status-bad{% endif %}">
+
+        {% if tds is none %}
+
+            Not Available
+
+        {% elif tds <= 2100 %}
+
             Compliant
-        </td>
+
+        {% else %}
+
+            Above Limit
+
+        {% endif %}
+
+    </td>
+
+</tr>
 
     </tr>
 
     <tr>
 
-        <td>TDS</td>
+    <td>COD</td>
 
-        <td>{{ tds }} mg/L</td>
+    <td>{{ cod if cod is not none else "N/A" }} mg/L</td>
 
-        <td>2100 mg/L</td>
+    <td>250 mg/L</td>
 
-        <td class="status-good">
+    <td class="{% if cod is not none and cod <= 250 %}status-good{% else %}status-bad{% endif %}">
+
+        {% if cod is none %}
+
+            Not Available
+
+        {% elif cod <= 250 %}
+
             Compliant
-        </td>
 
-    </tr>
+        {% else %}
+
+            Above Limit
+
+        {% endif %}
+
+    </td>
+
+</tr>
 
     <tr>
 
-        <td>COD</td>
+    <td>BOD</td>
 
-        <td>{{ cod }} mg/L</td>
+    <td>{{ bod if bod is not none else "N/A" }} mg/L</td>
 
-        <td>250 mg/L</td>
+    <td>30 mg/L</td>
 
-        <td class="status-bad">
+    <td class="{% if bod is not none and bod <= 30 %}status-good{% else %}status-bad{% endif %}">
+
+        {% if bod is none %}
+
+            Not Available
+
+        {% elif bod <= 30 %}
+
+            Compliant
+
+        {% else %}
+
             Above Limit
-        </td>
 
-    </tr>
+        {% endif %}
 
-    <tr>
+    </td>
 
-        <td>BOD</td>
-
-        <td>{{ bod }} mg/L</td>
-
-        <td>30 mg/L</td>
-
-        <td class="status-bad">
-            Above Limit
-        </td>
-
-    </tr>
+</tr>
 
 </table>
 
@@ -610,46 +671,142 @@
 
     <tr>
 
-        <td>PM2.5</td>
+    <td>PM2.5</td>
 
-        <td>{{ pm25 }}</td>
+    <td>{{ pm25 if pm25 is not none else "N/A" }}</td>
 
-        <td>60 µg/m³</td>
+    <td>60 µg/m³</td>
 
-        <td class="status-good">
+    <td class="{% if pm25 is not none and pm25 <= 60 %}status-good{% else %}status-bad{% endif %}">
+
+        {% if pm25 is none %}
+
+            Not Available
+
+        {% elif pm25 <= 60 %}
+
             Compliant
-        </td>
 
-    </tr>
+        {% else %}
+
+            Above Limit
+
+        {% endif %}
+
+    </td>
+
+</tr>
 
     <tr>
 
-        <td>PM10</td>
+    <td>PM10</td>
 
-        <td>{{ pm10 }}</td>
+    <td>{{ pm10 if pm10 is not none else "N/A" }}</td>
 
-        <td>100 µg/m³</td>
+    <td>100 µg/m³</td>
 
-        <td class="status-good">
+    <td class="{% if pm10 is not none and pm10 <= 100 %}status-good{% else %}status-bad{% endif %}">
+
+        {% if pm10 is none %}
+
+            Not Available
+
+        {% elif pm10 <= 100 %}
+
             Compliant
-        </td>
 
-    </tr>
+        {% else %}
 
-    <tr>
+            Above Limit
 
-        <td>SO₂</td>
+        {% endif %}
 
-        <td>{{ so2 }}</td>
+    </td>
 
-        <td>80 mg/Nm³</td>
+</tr>
+   <tr>
 
-        <td class="status-good">
+    <td>SO₂</td>
+
+    <td>{{ so2 if so2 is not none else "N/A" }}</td>
+
+    <td>80 mg/Nm³</td>
+
+    <td class="{% if so2 is not none and so2 <= 80 %}status-good{% else %}status-bad{% endif %}">
+
+        {% if so2 is none %}
+
+            Not Available
+
+        {% elif so2 <= 80 %}
+
             Compliant
-        </td>
 
-    </tr>
+        {% else %}
 
+            Above Limit
+
+        {% endif %}
+
+    </td>
+
+</tr>
+
+<tr>
+
+    <td>NOx</td>
+
+    <td>{{ nox if nox is not none else "N/A" }}</td>
+
+    <td>80 mg/Nm³</td>
+
+    <td class="{% if nox is not none and nox <= 80 %}status-good{% else %}status-bad{% endif %}">
+
+        {% if nox is none %}
+
+            Not Available
+
+        {% elif nox <= 80 %}
+
+            Compliant
+
+        {% else %}
+
+            Above Limit
+
+        {% endif %}
+
+    </td>
+
+</tr>
+
+<tr>
+
+    <td>CO</td>
+
+    <td>{{ co if co is not none else "N/A" }}</td>
+
+    <td>2 mg/Nm³</td>
+
+    <td class="{% if co is not none and co <= 2 %}status-good{% else %}status-bad{% endif %}">
+
+        {% if co is none %}
+
+            Not Available
+
+        {% elif co <= 2 %}
+
+            Compliant
+
+        {% else %}
+
+            Above Limit
+
+        {% endif %}
+
+    </td>
+
+</tr>
 </table>
 
 <!-- REMARKS -->

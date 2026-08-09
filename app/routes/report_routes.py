@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends
 from fastapi.responses import HTMLResponse
 from sqlalchemy.orm import Session
-
+from app.models import User
+from app.auth import get_current_user
 from jinja2 import Environment, FileSystemLoader
 
 from app.database import get_db
@@ -20,15 +21,12 @@ router = APIRouter(
 
 @router.get("/preview", response_class=HTMLResponse)
 def preview_report(
+    current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
 
     # latest user
-    user = (
-        db.query(User)
-        .order_by(User.id.desc())
-        .first()
-    )
+    user = current_user
 
     # latest water report
     water_report = (
